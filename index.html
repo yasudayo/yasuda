@@ -1,0 +1,153 @@
+<html>
+
+<head>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+        html,
+        body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: black;
+        }
+        stage {
+            width: 118vmin;
+            height: 98vmin;
+            background: white;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <title>ヤス打</title>
+    <link rel="stylesheet" href="style.css">
+    <div id="text">ヤス打</div>
+    <div id="text1"></div>
+    <div id="balloon"></div>
+    <img src="悪魔.png" width="200" height="200" id="devil">
+    <h1 id="mondaiJa"></h1>
+    <h2 id="mondai" class="mondaitext"></h2>
+    <div id="danger">DANGER!!</div>
+    <div id="credit"></div>
+    <input type="button" value="はじめる" id="haji" onclick="start()">
+    <script src="main.js"></script>
+</body>
+<script>
+    let BGM1 = new Audio("BGM1.mp3");
+    let se = new Audio("大砲1.mp3");
+    let se2 = new Audio('不安.mp3');
+    let huusen = document.getElementById('balloon');
+    let timer;
+    let count = 120;
+    let count1 = 0
+    let seikou = 0;
+    let devil = document.getElementById('devil');
+    let danger = document.getElementById('danger');
+    let text1 = document.getElementById('text1');
+    text1.innerText = "練習編　あなたは2分以内に何単語打てるかな? \n ローマ字モードにして遊んでください";
+    devil.style.display = "none";
+    danger.style.display = "none";
+    let QJ = ["もも", "パパ", "熊", "愛", "赤", "アジ", "穴", "鮎", "イカ", "石", "ガム", "ドア", "糸", "雪",
+        "夜景", "スイカ", "酸素", "電話", "ボール", "必死", "虫歯", "アヒル", "花火", "名刺", "ノート", "姉妹", "リボン", "カレー",
+        "不意打ち", "立ち読み", "指揮者", "パパイヤ", "ししゃも", "たこ焼き", "野球", "忍者", "ヨーヨー", "顔文字", "タピオカ", "木刀", "スライム", "お祭り",
+        "オンライン", "バイオリン", "ストラップ", "こどもの日", "英単語", "さくらんぼ", "マヨネーズ", "花吹雪", "腕時計", "紙粘土", "ストライク", "雪だるま", "癒し系",
+        "都道府県", "私語厳禁", "色鉛筆", "図書委員", "送りバント", "トランペット", "大河ドラマ", "道に迷う", "会議中", "小春日和", "心理テスト", "ダイナマイト", "ネイルサロン", "成人の日",
+        "ラジオ体操", "北斗七星", "消える魔球", "ホワイトボード", "防犯ブザー", "試合速報", "給食費", "空の王者", "染色体", "首位をキープ", "リップクリーム", "始発列車", "ショートケーキ", "人気タレント",
+        "迷える子羊", "美女と野獣", "百万ボルト", "ちゃぶ台返し", "一撃必殺", "天国と地獄", "心霊スポット", "お肌に優しい", "面白半分", "ピンポンダッシュ", "エンゲル係数", "三角定規", "星の王子様", "ここだけの話",
+        "匿名希望さん", "コラーゲン配合", "今日も負けました", "雲行きが怪しい", "赤いチューリップ", "先生の口癖", "億万長者", "プロフェッショナル", "有酸素運動", "合格発表", "爆発的人気", "サルも木から落ちる", "暗証番号", "魂の一撃",
+        "ハロウィンパーティー", "人生の分岐点", "獅子座流星群", "上昇気流", "コンビニエンスストア", "地球は青かった", "身分証明書", "卒業文集", "海洋深層水", "料理は愛情", "記憶にございません", "可愛いチワワですね", "来年のカレンダー", "フレミングの法則"
+    ];
+    let Q = ["momo", "papa", "kuma", 'ai', 'aka', 'aji', 'ana', 'ayu', 'ika', 'isi', 'gamu', 'doa', 'ito', 'yuki',
+        'yakei', 'suika', 'sanso', 'denwa', 'bo-ru', 'hissi', 'musiba', 'ahiru', 'hanabi', 'meisi', 'no-to', 'simai', 'ribon', 'kare-',
+        'huiuti', 'tatiyomi', 'sikisha', 'papaiya', 'sishamo', 'takoyaki', 'yakyuu', 'ninja', 'yo-yo-', 'kaomoji', 'tapioka', 'bokutou', 'suraimu', 'omaturi',
+        'onrain', 'baiorin', 'sutorappu', 'kodomonohi', 'eitango', 'sakuranbo', 'mayone-zu', 'hanahubuki', 'udedokei', 'kaminendo', 'sutoraiku', 'yukidaruma', 'iyasikei',
+        'todouhuken', 'sigogenkin', 'iroenpitu', 'toshoiin', 'okuribanto', 'toranpetto', 'taigadorama', 'mitinimayou', 'kaigityuu', 'koharubiyori', 'sinritesuto', 'dainamaito', 'neirusaron', 'seijinnnohi',
+        'rajiotaisou', 'hokutositisei', 'kierumakyuu', 'howaitobo-do', 'bouhanbuza-', 'siaisokuhou', 'kyuushokuhi', 'soranoouja', 'senshokutai', 'shuiwoki-pu', 'rippukuri-mu', 'sihaturessha', 'sho-toke-ki', 'ninkitarento',
+        'mayoerukohituji', 'bijotoyajuu', 'hyakumanboruto', 'tyabudaigaesi', 'itigekihissatu', 'tengokutojigoku', 'sinreisupotto', 'ohadaniyasasii', 'omosirohanbun', 'pinpondasshu', 'engerukeisuu', 'sankakujougi', 'hosinooujisama', 'kokodakenohanasi',
+        'tokumeikibousan', 'kora-genhaigou', 'kyoumomakemasita', 'kumoyukigaayasii', 'akaityu-rippu', 'senseinokutiguse', 'okumantyouja', 'purofesshonaru', 'yuusansoundou', 'goukakuhappyou', 'bakuhatutekininki', 'sarumokikaraotiru', 'anshoubangou', 'tamasiinoitigeki',
+        'harowinpa-thi-', 'jinseinobunkiten', 'sisizaryuuseigun', 'joushoukiryuu', 'konbiniensusutoa', 'tikyuuhaaokatta', 'mibunshoumeisho', 'sotugyoubunshuu', 'kaiyousinsousui', 'ryourihaaijou', 'kiokunigozaimasen', 'kawaiitiwawadesune', 'rainennnokarenda-', 'huremingunohousoku'
+    ];
+    let QJno = Math.floor(Math.random() * Q.length);
+    let Qno = QJno;
+    let Q_i = 0;
+    let Q_l = Q[Qno].length;
+    let mondaiJ = document.getElementById('mondaiJa');
+    let mondaiR = document.getElementById('mondai');
+    mondaiJ.style.display = "none";
+    mondaiR.style.display = "none";
+    huusen.style.display = "none";
+    function kaisi() {
+        BGM1.play();
+        mondaiJ.style.display = "none"
+        mondaiR.style.display = "none"
+        huusen.style.display = "block";
+        mondaiJ.style.display = "block"
+        mondaiR.style.display = "block";
+        mondaiR.innerText = Q[Qno].substring(Q_i, Q_l);
+        mondaiJ.innerText = QJ[QJno];
+        console.log(QJ[QJno]);
+        console.log(Q[Qno]);
+        console.log(Q[Qno].length);
+        mondaiR.style.display = "block";
+        timer = setInterval(twoTimer, 1000);
+        huusen.style.display = "block"
+        window.addEventListener('keydown', push_keydown);
+        function push_keydown(event) {
+            let KeyCode = event.key;
+            if (Q_l === Q_l - Q_i) {
+                mondaiJ.style.display = "block"
+                mondaiR.style.display = "block";
+                mondaiR.innerText = Q[Qno].substring(Q_i, Q_l);
+                mondaiJ.innerText = QJ[QJno];
+                event.preventDefault()
+            }
+            if (Q[Qno].charAt(Q_i) === KeyCode) {
+                Q_i++;
+                mondaiR.innerText = Q[Qno].substring(Q_i, Q_l);
+                mondaiJ.innerText = QJ[QJno];
+                if (Q_l - Q_i === 0) {
+                    seikou++;
+                    QJno = Math.floor(Math.random() * Q.length);
+                    Qno = QJno;
+                    Q_i = 0;
+                    Q_l = Q[Qno].length;
+                    mondaiR.innerText = Q[Qno].substring(Q_i, Q_l);
+                    mondaiJ.innerText = QJ[QJno];
+                }
+            }
+        }
+    }
+    function twoTimer() {
+        count--;
+        console.log(count);
+        if (count < 30) {
+            devil.style.display = "block";
+            danger.style.display = "block";
+            se2.play()
+        }
+        if (count === 0) {
+            se.play()
+            BGM1.pause()
+            huusen.style.display = "none";
+            mondaiJ.style.display = "none";
+            mondaiR.style.display = "none";
+            devil.style.display = "none";
+            danger.style.display = "none";
+           
+        }
+        if (count === -1) {
+            clearInterval(timer);
+            alert("GAMEOVER\n2分間で打てた単語" + seikou)
+            location.reload()
+        }
+    }
+</script>
+</html>

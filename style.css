@@ -1,0 +1,109 @@
+#text {
+    position: absolute;
+    width: 410px;
+    height: auto;
+    font-weight: 900;
+    font-size: 90;
+    text-align: center;
+    top: 20%;
+}
+#text1 {
+    position: absolute;
+    width: 500px;
+    height: auto;
+    font-size: 20;
+    text-align: center;
+    bottom: 45%;
+}
+#credit {
+    position: absolute;
+    width: 300px;
+    height: auto;
+    text-align: left;
+    bottom: 20%;
+    left: 20%;
+}
+#danger {
+    position: absolute;
+    text-align: center;
+    width: 380px;
+    height: auto;
+    font-size: 30;
+    color: rgb(130, 0, 0);
+    font-weight: 700;
+    animation: flash 1s linear infinite;
+    z-index: 20;
+    right: 12%;
+    bottom: 40%;
+}
+@keyframes flash {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+#devil {
+    position: absolute;
+    text-align: center;
+    right: 20%;
+    bottom: 5%;
+    z-index: 20;
+}
+#haji {
+    position: absolute;
+    text-align: center;
+    bottom: 35%;
+}
+#mondaiJa {
+    position: absolute;
+    width: 600px;
+    height: auto;
+    font-weight: 100;
+    font-size: 50;
+    text-align: center;
+    top: 20%;
+    z-index: 20;
+}
+#mondai {
+    position: absolute;
+    width: 410px;
+    height: auto;
+    font-size: 20;
+    text-align: center;
+    top: 40%;
+    z-index: 20;
+}
+#balloon {
+    position: absolute;
+    text-align: center;
+    width: 680px;
+    height: 680px;
+    border-radius: 50%;
+    z-index: 10;
+    background-color: rgb(68, 121, 254);
+    transform: scale(0);
+    animation-name: BalloonAnimation;
+    animation-duration: 120s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+}
+@keyframes BalloonAnimation {
+    0% {
+        width: 0px;
+        height: 0px;
+    }
+    50% {
+        transform: scale(1);
+        width: 340px;
+        height: 340px;
+        background-color: rgb(255, 250, 108);
+    }
+    100% {
+        transform: scale(1);
+        width: 680px;
+        height: 680px;
+        background-color: rgb(255, 127, 127);
+    }
+}
